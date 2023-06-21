@@ -15,9 +15,16 @@ RUN pip install --upgrade pip
 RUN apk add --no-cache gcc musl-dev libffi-dev openssl-dev
 
 COPY requirements.txt /app
+
+RUN pip install virtualenv
+RUN virtualenv venv 
+RUN source venv/bin/activate
+
 RUN pip install -r requirements.txt
 
 COPY . /app
+
+
 
 # EXPOSE 8000
 
