@@ -12,4 +12,4 @@ DATABASES = {
     }        
 }
 
-ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['*']

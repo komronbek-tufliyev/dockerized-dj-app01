@@ -1,33 +1,30 @@
-# Use an official Python runtime as a parent image
-FROM python:3.9.6-alpine
+FROM python:3.9.6-alpine3.14
 
-# Set the working directory to /app
-WORKDIR /usr/src/app
+LABEL Author="Komronbek"
 
-# RUN apt update
+ENV PYTHONUNBUFFERED 1
+# ENV PYTHONDONTWRITEBYTECODE 1
+
+# ENV COLUMNS 143
+
+
+WORKDIR /app
+
+RUN pip install --upgrade pip
+
 RUN apk add --no-cache gcc musl-dev libffi-dev openssl-dev
 
-
-
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-# COPY requirements.txt
-RUN pip install --upgrade pip
-COPY ./requirements.txt .
+COPY requirements.txt /app
 RUN pip install -r requirements.txt
 
-# COPY the project 
-COPY . .
+COPY . /app
 
-# RUN the project
-RUN python manage.py migrate
-RUN python manage.py collectstatic --noinput
+# EXPOSE 8000
 
-# EXPOSE port 8000 to allow communication to/from server
-EXPOSE 8000
+# RUN python manage.py collectstatic --noinput
+# # RUN python manage.py makemigrations
+# RUN python manage.py migrate
 
-# CMD specifcies the command to execute to start the server running.
-CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000"] 
+
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 

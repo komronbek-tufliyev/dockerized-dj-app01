@@ -30,6 +30,8 @@ SECRET_KEY = env.str("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
 
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=['*'])
+
 
 # Application definition
 
@@ -44,14 +46,18 @@ INSTALLED_APPS = [
     # third party apps
     'rest_framework',
     'drf_yasg',
+    'corsheaders',
+
 
     # local apps
     'books',
+
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # corsheaders
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -123,9 +129,9 @@ USE_TZ = True
 print(BASE_DIR)
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
-# STATIC_ROOT = str(BASE_DIR.joinpath('static'))
-
+# STATICFILES_DIRS = [str(BASE_DIR.joinpath('staticfiles'))]
+STATIC_ROOT = str(BASE_DIR.joinpath('static'))
+# STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 # Media files (Images, Videos, etc)
 MEDIA_URL = '/media/'
