@@ -34,6 +34,8 @@ RUN echo "Installed all depencises🎉"
 COPY . /app
 RUN echo "Docker file ended"
 
+# CMD ["python", "manage.py", "migrate"]
+
 
 
 # EXPOSE 8000

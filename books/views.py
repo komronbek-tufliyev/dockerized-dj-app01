@@ -22,7 +22,7 @@ class BookViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def generate_random_books(self, request):
         num_books = 10  # The number of books to generate
-        generate_books.delay(num_books)  # Call the task asynchronously
+        generate_books(num_books)  # Call the task asynchronously
         return Response(status=status.HTTP_202_ACCEPTED)
     
 def list_of_users(request):
