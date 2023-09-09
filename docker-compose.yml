@@ -1,6 +1,15 @@
 version: '3.9'
 
 services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/conf.d
+      - ./static:/static
+    depends_on:
+      - web
   db: 
     image: postgres
     volumes:
@@ -15,11 +24,13 @@ services:
       - 5432:5432
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: sh c - "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic && gunicorn --bind config.wsgi:application 0.0.0.0:8000"
     volumes:
       - .:/code
     ports:
       - 8000:8000
+    env_file:
+      - .env
     environment:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
